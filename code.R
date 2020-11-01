@@ -20,7 +20,7 @@ create_storage_dir(cont, "folder02/folder03/folder04/folder05")
 storage_upload(cont, src = "some_file.png", dest = "folder02/folder03/folder04/some_file.png") 
 
 
-# ункція, яка створює "n" папок і у парку з номером "to" закидує файл
+# функція, яка створює "n" папок і у парку з номером "to" закидує файл
 sas_add_file <- function(endpoint,
                          sas,
                          name = "folder", # найменування папок
