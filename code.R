@@ -20,13 +20,12 @@ create_storage_dir(cont, "folder02/folder03/folder04/folder05")
 storage_upload(cont, src = "some_file.png", dest = "folder02/folder03/folder04/some_file.png") 
 
 
-
-# функція, яка створює "n" папок і у парку з номером "to" закидує файл
+# ункція, яка створює "n" папок і у парку з номером "to" закидує файл
 sas_add_file <- function(endpoint,
                          sas,
                          name = "folder", # найменування папок
                          n = 5,           # загальна кількість папок 
-                         to = 4,          # номер папки в яку необхідно завантажити файл
+                         to = 2,          # номер папки в яку необхідно завантажити файл
                          file) {          # текстовий рядок наменування файлу в каталогу
         
         # підключення за допомогою SAS
@@ -40,9 +39,10 @@ sas_add_file <- function(endpoint,
                 folder_names[i] <-  paste(c(name, 0, i), collapse = "")
         }
         
-        folder4_dest <- gsub(folder_names[to+1], "" ,paste(folder_names[-1], collapse = "/"))
-        
-        dest <- paste(c(folder4_dest, file), collapse = "")
+        folder_path <- paste(folder_names[-1], collapse = "/")
+        del_folder <- paste(folder_names[to+1:(n-to)], collapse = "/")
+        folder_dest <- gsub(del_folder, "", folder_path)
+        dest <- paste(c(folder_dest, file), collapse = "")
         
         # створити контейнер - папку 1
         cont <- storage_container(bl_endp_key, folder_names[1])
@@ -55,9 +55,8 @@ sas_add_file <- function(endpoint,
         storage_upload(cont, src = file, dest = dest)    
 }
 
-# тест функції
 sas_add_file(endpoint = "https://<ТУТ МАЄ БУТИ НАЗВА>.blob.core.windows.net/",
              sas = "<ТУТ МАЄ БУТИ SAS token>",
              n = 5,
-             to = 4,
+             to = 2,
              file = "some_file.png")
